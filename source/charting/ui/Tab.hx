@@ -16,7 +16,7 @@ class Tab extends FlxSpriteGroup {
 	public function new():Void {
 		super();
 
-		bar = new FlxSprite().makeGraphic(FlxG.width, 38, 0x33000000);
+		bar = new FlxSprite().makeGraphic(FlxG.width, 38, 0x66000000);
 		add(bar);
 
 		buttons = new FlxSpriteGroup();
@@ -27,7 +27,7 @@ class Tab extends FlxSpriteGroup {
 
 		var i:Int = 0; while (i < buttonsLength) {
 			buttons.add(new FlxButton(buttonX, 0.0, buttonNames[i++]));
-			buttonX += (bar.width * 0.2);
+			buttonX += (bar.width / buttonsLength);
 		}
 	}
 
