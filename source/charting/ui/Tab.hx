@@ -25,7 +25,10 @@ class Tab extends FlxSpriteGroup {
 		var buttonX:Float = 0.0;
 		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
-		var i:Int = 0; while (i < buttonsLength) buttons.add(new FlxButton(buttonX += ((bar.width * 0.2) * i), 0.0, buttonNames[i])); i++;
+		var i:Int = 0; while (i < buttonsLength) {
+			buttons.add(new FlxButton(buttonX += ((bar.width * 0.2) * i), 0.0, buttonNames[i]));
+			i++;
+		}
 	}
 
 	/*public function onMetaClick():Void {
