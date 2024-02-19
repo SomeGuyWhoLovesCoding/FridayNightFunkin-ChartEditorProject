@@ -5,8 +5,6 @@ import flixel.*;
 import flixel.group.FlxSpriteGroup;
 
 class TabPopup extends FlxSpriteGroup {
-	public var container:Tab;
-
 	var tabBG(default, null):FlxSprite;
 	var tabContents(default, null):FlxSpriteGroup;
 	var tabExitButton(default, null):FlxButton;
