@@ -4,6 +4,8 @@ import flixel.group.FlxSpriteGroup;
 import flixel.ui.FlxButton;
 import flixel.*;
 
+import charting.ui.popups.*;
+
 class Tab extends FlxSpriteGroup {
 	public var container:FlxState;
 
@@ -11,7 +13,9 @@ class Tab extends FlxSpriteGroup {
 	var buttons:FlxSpriteGroup;
 	var buttonsLength:Int = 5;
 	var buttonNames:Array<String> = ['[!] Meta', 'Gameplay', 'Section', 'Events', 'File'];
-	var buttonCallbacks:Array<Void->Void>;
+	var tabPopups:Array<TabPopup>;
+
+	var inPopupMenu:Bool = false;
 
 	public function new():Void {
 		super();
@@ -26,34 +30,31 @@ class Tab extends FlxSpriteGroup {
 		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
 		var i:Int = 0; while (i < buttonsLength) {
+			tabPopups[i] = new TabPopup(i);
+			tabPopups[i].visible = false;
 			var bX:Float = (bar.width / buttonsLength);
-			var button = new FlxButton(buttonX, 0.0, buttonNames[i++]);
+			var button = new FlxButton(buttonX, 0.0, buttonNames[i], () -> onTabButtonClick(i));
 			button.loadGraphic("assets/images/charting/ui/tabButton.png", true, Std.int(bX), Std.int(bar.height) /* Why are these argument integers!? */);
 			button.label.font = 'assets/fonts/roman.ttf';
 			button.label.color = 0xFFFFFFFF;
-			button.label.size = 24;
+			button.label.size = 26;
 			buttons.add(button);
 			buttonX += bX;
+			i++;
 		}
 	}
 
-	/*public function onMetaClick():Void {
-		container.openSubState(new charting.ui.popups.Meta(container.Chart.Song));
+	override public function update(elapsed:Float):Void {
+		if (!inPopupMenu) {
+			super.update(elapsed);
+		}
 	}
 
-	public function onGameplayClick():Void {
-		container.openSubState(new charting.ui.popups.Gameplay(container.Chart.Song));
+	public function onTabButtonClick(id:Int):Void {
+		tabPopups[id].visible = inPopupMenu = true;
 	}
 
-	public function onSectionClick():Void {
-		container.openSubState(new charting.ui.popups.Section(container.Chart));
+	public function onTahPopupExit(id:Int):Void {
+		tabPopups[id].visible = inPopupMenu = false;
 	}
-
-	public function onEventsClick():Void {
-		container.openSubState(new charting.ui.popups.Events(container.Chart));
-	}
-
-	public function onFileClick():Void {
-		container.openSubState(new charting.ui.popups.File(container.Chart));
-	}*/
 }
