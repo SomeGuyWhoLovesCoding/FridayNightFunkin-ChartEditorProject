@@ -40,6 +40,7 @@ class Tab extends FlxSpriteGroup {
 		}
 
 		tabPopup = new TabPopup();
+		tabPopup.container = this;
 		tabPopup.visible = false;
 		add(tabPopup);
 	}
