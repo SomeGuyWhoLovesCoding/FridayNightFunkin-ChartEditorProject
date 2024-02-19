@@ -5,7 +5,7 @@ import flixel.ui.FlxButton;
 import flixel.*;
 
 class Tab extends FlxSpriteGroup {
-	var container:FlxState;
+	public var container:FlxState;
 
 	var bar:FlxSprite;
 	var buttons:FlxSpriteGroup;
@@ -23,10 +23,9 @@ class Tab extends FlxSpriteGroup {
 		add(buttons);
 
 		var buttonX:Float = 0.0;
-		buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
+		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
 		var i:Int = 0; while (i < buttonsLength) buttons.add(new FlxButton(buttonX += ((bar.width * 0.2) * i), 0.0, buttonNames[i])); i++;
-		buttons = [];
 	}
 
 	/*public function onMetaClick():Void {

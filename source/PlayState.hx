@@ -2,6 +2,8 @@ package;
 
 import flixel.FlxState;
 import charting.*;
+import charting.ui.*;
+import charting.ui.popups.*;
 
 class PlayState extends FlxState
 {
