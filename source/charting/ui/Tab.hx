@@ -26,7 +26,10 @@ class Tab extends FlxSpriteGroup {
 		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
 		var i:Int = 0; while (i < buttonsLength) {
-			buttons.add(new FlxButton(buttonX, 0.0, buttonNames[i++]));
+			var button = new FlxButton(buttonX, 0.0, buttonNames[i++]);
+			button.label.font = 'assets/fonts/roman.ttf';
+			button.label.color = 0xFFFFFFFF;
+			buttons.add(button);
 			buttonX += (bar.width / buttonsLength);
 		}
 	}
