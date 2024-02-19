@@ -26,15 +26,15 @@ class TabPopup extends FlxSpriteGroup {
 	}
 
 	public function change(id:Int):Void {
+		// Potentially free up memory by destroying it
+		tabBG.destroy();
+		tabContents.destroy();
+		tabExitButton.destroy();
+
 		if (id == -1)  {
 			remove(tabBG);
 			remove(tabContents);
 			remove(tabExitButton);
-
-			// Potentially free up memory by destroying it
-			tabBG.destroy();
-			tabContents.destroy();
-			tabExitButton.destroy();
 
 			return;
 		}
