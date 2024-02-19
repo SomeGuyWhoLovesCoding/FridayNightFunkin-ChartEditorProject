@@ -1,6 +1,6 @@
 package;
 
-import flixel.FlxState;
+import flixel.*;
 import charting.*;
 import charting.ui.*;
 import charting.ui.popups.*;
@@ -12,6 +12,8 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		FlxG.cameras.bgColor = 0xFF666666;
+
 		//grid = new Grid();
 		//grid.container = this;
 		//add(grid);
