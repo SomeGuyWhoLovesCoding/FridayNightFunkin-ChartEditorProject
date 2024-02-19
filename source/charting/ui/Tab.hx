@@ -9,11 +9,11 @@ import charting.ui.popups.*;
 class Tab extends FlxSpriteGroup {
 	public var container:FlxState;
 
-	var bar:FlxSprite;
-	var buttons:FlxSpriteGroup;
-	var buttonsLength:Int = 5;
-	var buttonNames:Array<String> = ['[!] Meta', 'Gameplay', 'Section', 'Events', 'File'];
-	var tabPopup:TabPopup;
+	var bar(default, null):FlxSprite;
+	var buttons(default, null):FlxSpriteGroup;
+	var buttonsLength(default, null):Int = 5;
+	var buttonNames(default, null):Array<String> = ['[!] Meta', 'Gameplay', 'Section', 'Events', 'File'];
+	var tabPopup(default, null):TabPopup;
 
 	public function new():Void {
 		super();
@@ -39,8 +39,7 @@ class Tab extends FlxSpriteGroup {
 			i++;
 		}
 
-		tabPopup = new TabPopup();
-		tabPopup.container = this;
+		tabPopup = new TabPopup(onTabPopupExit);
 		tabPopup.visible = false;
 		add(tabPopup);
 	}
@@ -52,6 +51,7 @@ class Tab extends FlxSpriteGroup {
 	public function onTabButtonClick(id:Int):Void {
 		tabPopup.change(id);
 		tabPopup.visible = true;
+		//cast(buttons.group.members[id], FlxButton).status = 0; // Neat hack! Update status first before deactivation, also cast the sprite group's member to a FlxButton
 		buttons.active = false;
 	}
 
