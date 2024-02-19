@@ -54,7 +54,7 @@ class Tab extends FlxSpriteGroup {
 		tabPopups[id].visible = inPopupMenu = true;
 	}
 
-	public function onTahPopupExit(id:Int):Void {
+	public function onTabPopupExit(id:Int):Void {
 		tabPopups[id].visible = inPopupMenu = false;
 	}
 }
