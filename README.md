@@ -14,6 +14,5 @@ So we're gonna fix those 2 problems by rewriting the whole chart editor which is
 
 ## How to contribute:
 DM me on discord (@someguywhouhhhh) and ask me if you want to contribute to the chart editor project.
-I will respond with: *Are you ready for this? Because our team needs you so that we can finish the project together!*
-Or: *Are you an experienced haxe coder? We're currently focusing on optimization and having the minimum memory usage as possible.*
+I will respond with: *Are you ready for this? Because our team needs you so that we can finish the project together!*, or: *Are you an experienced haxe coder? We're currently focusing on optimization and having the minimum memory usage as possible.*
 Make sure to be prepared for this because we'll be working VERY hard on the project!
