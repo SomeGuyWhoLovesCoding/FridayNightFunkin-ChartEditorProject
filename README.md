@@ -10,6 +10,7 @@ the game's memory constantly increases due to the ui sprites being redrawn every
 ### Problems:
 - Vanilla and psych: The charting grid was only a section long, which regenerates when you go to the next section, which also costs increasing your memory.
 - In psych: The chart editor waveform regenerates also when you go to the next section. Yet again, costs increasing your memory. Plus, why would you need a chart waveform anyway?
+
 So we're gonna fix those 2 problems by rewriting the whole chart editor which is in this repository.
 
 ## How to contribute:
