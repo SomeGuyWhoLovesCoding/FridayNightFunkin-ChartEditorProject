@@ -28,10 +28,10 @@ class Tab extends FlxSpriteGroup {
 		var i:Int = 0; while (i < buttonsLength) {
 			var bX:Float = (bar.width / buttonsLength);
 			var button = new FlxButton(buttonX, 0.0, buttonNames[i++]);
+			button.loadGraphic("assets/images/charting/ui/tabButton.png", true, Std.int(bX), Std.int(bar.height) /* Why are these argument integers!? */);
 			button.label.font = 'assets/fonts/roman.ttf';
 			button.label.color = 0xFFFFFFFF;
 			button.label.size = 24;
-			button.loadGraphic("assets/images/charting/ui/tabButton.png", false, Std.int(bX), Std.int(bar.height) /* Why are these argument integers!? */);
 			buttons.add(button);
 			buttonX += bX;
 		}
