@@ -57,6 +57,7 @@ class Tab extends FlxSpriteGroup {
 		if (button != null) {
 			button.status = FlxButton.NORMAL;
 			button.animation.play("normal", true);
+			button.label.y -= 1; // Do a little fix here
 		}
 		//buttons.members[id].animation.play("normal", true);
 	}
