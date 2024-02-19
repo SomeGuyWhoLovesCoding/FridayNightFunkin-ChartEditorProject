@@ -27,30 +27,32 @@ class TabPopup extends FlxSpriteGroup {
 	}
 
 	public function change(id:Int):Void {
-		// Potentially free up memory by destroying it
-		tabBG.destroy();
-		tabContents.destroy();
-		tabExitButton.destroy();
+		if (id == -1)  {
+			remove(tabBG);
+			remove(tabContents);
+			remove(tabExitButton);
 
-		remove(tabBG);
-		remove(tabContents);
-		remove(tabExitButton);
+			// Potentially free up memory by destroying it
+			tabBG.destroy();
+			tabContents.destroy();
+			tabExitButton.destroy();
 
-		if (id != -1) {
-			tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
-			tabBG.screenCenter();
-			add(tabBG);
+			return;
+		}
 
-			tabContents = new FlxSpriteGroup();
-			tabContents.x = tabBG.x;
-			tabContents.y = tabBG.y;
-			add(tabContents);
+		tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
+		tabBG.screenCenter();
+		add(tabBG);
 
-			regenerateExitButton(exitCallback);
+		tabContents = new FlxSpriteGroup();
+		tabContents.x = tabBG.x;
+		tabContents.y = tabBG.y;
+		add(tabContents);
 
-			switch (id) {
-				case 0:
-			}
+		regenerateExitButton(exitCallback);
+
+		switch (id) {
+			case 0:
 		}
 	}
 
