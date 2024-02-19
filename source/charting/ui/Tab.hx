@@ -29,12 +29,13 @@ class Tab extends FlxSpriteGroup {
 
 		var i:Int = 0; while (i < buttonsLength) {
 			var bX:Float = (bar.width / buttonsLength);
-			var button = new FlxButton(buttonX, 0.0, buttonNames[i], () -> onTabButtonClick(i));
+			var button = new FlxButton(buttonX, 0.0, buttonNames[i]);
 			button.loadGraphic("assets/images/charting/ui/tabButton.png", true, Std.int(bX), Std.int(bar.height) /* Why are these argument integers!? */);
 			button.label.font = 'assets/fonts/roman.ttf';
 			button.label.color = 0xFFFFFFFF;
 			button.label.size = 26;
 			buttons.add(button);
+			button.onUp.callback = () -> onTabButtonClick(button, i);
 			buttonX += bX;
 			i++;
 		}
@@ -48,11 +49,16 @@ class Tab extends FlxSpriteGroup {
 		super.update(elapsed);
 	}
 
-	public function onTabButtonClick(id:Int):Void {
+	public function onTabButtonClick(button:FlxButton, id:Int):Void {
 		tabPopup.change(id);
 		tabPopup.visible = true;
 		//cast(buttons.group.members[id], FlxButton).status = 0; // Neat hack! Update status first before deactivation, also cast the sprite group's member to a FlxButton
 		buttons.active = false;
+		if (button != null) {
+			button.status = FlxButton.NORMAL;
+			button.animation.play("normal", true);
+		}
+		//buttons.members[id].animation.play("normal", true);
 	}
 
 	public function onTabPopupExit():Void {
