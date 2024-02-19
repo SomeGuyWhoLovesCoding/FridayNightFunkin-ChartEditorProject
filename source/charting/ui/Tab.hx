@@ -13,9 +13,7 @@ class Tab extends FlxSpriteGroup {
 	var buttons:FlxSpriteGroup;
 	var buttonsLength:Int = 5;
 	var buttonNames:Array<String> = ['[!] Meta', 'Gameplay', 'Section', 'Events', 'File'];
-	var tabPopups:Array<TabPopup>;
-
-	var inPopupMenu:Bool = false;
+	var tabPopup:TabPopup;
 
 	public function new():Void {
 		super();
@@ -30,8 +28,6 @@ class Tab extends FlxSpriteGroup {
 		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
 		var i:Int = 0; while (i < buttonsLength) {
-			tabPopups[i] = new TabPopup(i);
-			tabPopups[i].visible = false;
 			var bX:Float = (bar.width / buttonsLength);
 			var button = new FlxButton(buttonX, 0.0, buttonNames[i], () -> onTabButtonClick(i));
 			button.loadGraphic("assets/images/charting/ui/tabButton.png", true, Std.int(bX), Std.int(bar.height) /* Why are these argument integers!? */);
@@ -42,19 +38,25 @@ class Tab extends FlxSpriteGroup {
 			buttonX += bX;
 			i++;
 		}
+
+		tabPopup = new TabPopup();
+		tabPopup.visible = false;
+		add(tabPopup);
 	}
 
 	override public function update(elapsed:Float):Void {
-		if (!inPopupMenu) {
-			super.update(elapsed);
-		}
+		super.update(elapsed);
 	}
 
 	public function onTabButtonClick(id:Int):Void {
-		tabPopups[id].visible = inPopupMenu = true;
+		tabPopup.change(id);
+		tabPopup.visible = true;
+		buttons.active = false;
 	}
 
-	public function onTabPopupExit(id:Int):Void {
-		tabPopups[id].visible = inPopupMenu = false;
+	public function onTabPopupExit():Void {
+		tabPopup.change(-1);
+		tabPopup.visible = false;
+		buttons.active = true;
 	}
 }
