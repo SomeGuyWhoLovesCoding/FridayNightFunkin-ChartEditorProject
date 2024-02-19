@@ -8,6 +8,7 @@ class TabPopup extends FlxSpriteGroup {
 	var tabBG(default, null):FlxSprite;
 	var tabContents(default, null):FlxSpriteGroup;
 	var tabExitButton(default, null):FlxButton;
+	var exitCallback(default, null):Void->Void;
 
 	public function new(?callback:Void->Void):Void {
 		super();
@@ -22,7 +23,7 @@ class TabPopup extends FlxSpriteGroup {
 		tabContents.y = tabBG.y;
 		add(tabContents);
 
-		regenerateExitButton(callback);
+		regenerateExitButton(exitCallback = callback);
 	}
 
 	public function change(id:Int):Void {
@@ -31,27 +32,25 @@ class TabPopup extends FlxSpriteGroup {
 		tabContents.destroy();
 		tabExitButton.destroy();
 
-		if (id == -1)  {
-			remove(tabBG);
-			remove(tabContents);
-			remove(tabExitButton);
+		remove(tabBG);
+		remove(tabContents);
+		remove(tabExitButton);
 
-			return;
-		}
+		if (id != -1) {
+			tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
+			tabBG.screenCenter();
+			add(tabBG);
 
-		tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
-		tabBG.screenCenter();
-		add(tabBG);
+			tabContents = new FlxSpriteGroup();
+			tabContents.x = tabBG.x;
+			tabContents.y = tabBG.y;
+			add(tabContents);
 
-		tabContents = new FlxSpriteGroup();
-		tabContents.x = tabBG.x;
-		tabContents.y = tabBG.y;
-		add(tabContents);
+			regenerateExitButton(exitCallback);
 
-		regenerateExitButton();
-
-		switch (id) {
-			case 0:
+			switch (id) {
+				case 0:
+			}
 		}
 	}
 
