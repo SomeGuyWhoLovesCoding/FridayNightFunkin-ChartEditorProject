@@ -14,11 +14,15 @@ class Grid extends FlxSpriteGroup {
 	var inst(default, null):Sound;
 	var voices(default, null):Sound;
 
-	var stepCrochet(default, null):Float = 0.0;
 	var crochet(default, null):Float = 0.0;
+	var stepCrochet(default, null):Float = 0.0;
+
+	// BPM change
+	var lastStepCrochet(default, null):Float = 0.0;
 
 	var currentBpm(null, set):Float = 100.0;
 	function set_currentBpm(value:Float):Float {
+		lastStepCrochet = stepCrochet;
 		crochet = 60000.0 / value;
 		stepCrochet = crochet * 0.25;
 		return currentBpm = value;
@@ -94,7 +98,7 @@ class Grid extends FlxSpriteGroup {
 			}
 		}
 		super.update(elapsed);
-		y = flixel.math.FlxMath.lerp(y, -(gridSize * (Math.max(inst.time, 0.0) / stepCrochet)), 0.35);
+		y = flixel.math.FlxMath.lerp(y, -(gridSize * ((lastStepCrochet + (Math.max(inst.time, 0.0) - /* ??? */)) / stepCrochet)), 0.35);
 		trace(inst.time);
 	}
 
