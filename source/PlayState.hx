@@ -1,11 +1,10 @@
 package;
 
-import flixel.*;
 import charting.*;
 import charting.ui.*;
 import charting.ui.popups.*;
 
-class PlayState extends FlxState
+class PlayState extends flixel.FlxState
 {
 	var grid:Grid;
 	var tab:Tab;
