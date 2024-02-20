@@ -10,19 +10,19 @@ class PlayState extends FlxState
 	var grid:Grid;
 	var tab:Tab;
 
-	var song:fv.song.Chart.ChartJson;
+	var song:fv.song.Chart;
 
 	override public function create()
 	{
 		FlxG.cameras.bgColor = 0xFF666666;
 
-		song = new fv.song.Chart('test', 'hard').getData();
-		trace(song);
+		song = new fv.song.Chart('test', 'hard');
+		//trace(song);
 
-		grid = new Grid(song);
+		grid = new Grid(song.getData());
 		add(grid);
 
-		tab = new Tab(song);
+		tab = new Tab(song.getData());
 		add(tab);
 
 		super.create();

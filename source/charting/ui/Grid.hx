@@ -1,14 +1,19 @@
 package charting.ui;
 
-import flixel.FlxSprite;
+import flixel.*;
+import flixel.system.FlxSound;
 import flixel.group.FlxSpriteGroup;
 import flixel.addons.display.FlxGridOverlay;
+import fv.song.Utils;
 
 class Grid extends FlxSpriteGroup {
 	var grid(default, null):FlxSprite;
 	var gridWidth:Int = 55;
 
 	var curSection:Int = 0;
+
+	var inst(default, null):FlxSound;
+	var voices(default, null):FlxSound;
 
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
@@ -21,10 +26,16 @@ class Grid extends FlxSpriteGroup {
 		grid.updateHitbox();
 		grid.screenCenter(X);
 		add(grid);
+
+		inst = new FlxSound().loadEmbedded(Paths.inst(chart.Meta.Song), 1.0);
+		voices = new FlxSound().loadEmbedded(Paths.voices(chart.Meta.Song), 1.0);
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		grid.scroll.y;
+		if (flixel.FlxG.keys.justPressed.SPACE) {
+			if (inst.playing) inst.pause(); else inst.play();
+			if (voices.playing) voices.pause(); else voices.play();
+		}
 	}
 }
