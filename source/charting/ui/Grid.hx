@@ -68,11 +68,6 @@ class Grid extends FlxSpriteGroup {
 	var stepTime:Float = 0.0;
 	override public function update(elapsed:Float):Void {
 		stepTime += elapsed;
-		songPosition = Math.max(inst.time, 0.0);
-		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
-		trace(currentBpm,stepCrochet);
-		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
-		super.update(elapsed);
 		@:privateAccess {
 			// Sound playback
 			if (flixel.FlxG.keys.justPressed.SPACE) {
@@ -110,6 +105,11 @@ class Grid extends FlxSpriteGroup {
 				}*/
 			}
 		}
+		super.update(elapsed);
+		songPosition = Math.max(inst.time, 0.0);
+		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
+		trace(currentBpm,stepCrochet);
+		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
 		//trace(y);
 		//trace(inst.time);
 	}
