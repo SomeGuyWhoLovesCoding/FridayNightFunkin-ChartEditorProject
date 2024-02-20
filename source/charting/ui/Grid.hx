@@ -8,7 +8,7 @@ import fv.song.Utils;
 
 class Grid extends FlxSpriteGroup {
 	var grid(default, null):FlxSprite;
-	var gridWidth:Int = 55;
+	var gridSize:Int = 55;
 
 	var curSection:Int = 0;
 
@@ -18,7 +18,7 @@ class Grid extends FlxSpriteGroup {
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
 
-		grid = FlxGridOverlay.create(gridWidth, gridWidth, gridWidth * 8, gridWidth * (chart.Meta.TimeSignature.Steps *
+		grid = FlxGridOverlay.create(gridSize, gridSize, gridSize * 8, gridSize * (chart.Meta.TimeSignature.Steps *
 			chart.Meta.TimeSignature.Beats * chart.Meta.TimeSignature.Bars),
 		true, 0xFFFFFFFF, 0xFFC3C3C3); // Hmm... This might actually be better
 		grid.scrollFactor.set(1, 1);
@@ -32,10 +32,17 @@ class Grid extends FlxSpriteGroup {
 	}
 
 	override public function update(elapsed:Float):Void {
-		super.update(elapsed);
+		grid.y = -inst.time;
 		if (flixel.FlxG.keys.justPressed.SPACE) {
 			if (inst.playing) inst.pause(); else inst.play();
 			if (voices.playing) voices.pause(); else voices.play();
+		}
+		super.update(elapsed);
+	}
+
+	function onStepHit():Void {
+		if (voices.time < inst.time - 20) {
+			voices.time = inst.time;
 		}
 	}
 }
