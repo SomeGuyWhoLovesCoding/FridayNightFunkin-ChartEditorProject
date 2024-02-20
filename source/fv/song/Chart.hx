@@ -43,7 +43,8 @@ typedef ChartEvent = {
 	Value1:String,
 	?Value2:String,
 	?Value3:String,
-	Offset:Float
+	Offset:Float,
+	StrumTime:Float
 }
 
 typedef ChartJson = {

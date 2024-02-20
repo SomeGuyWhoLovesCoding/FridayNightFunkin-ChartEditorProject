@@ -64,11 +64,11 @@
 		"Events": [
 			{
 				"Type": "tempo",
-				"Name": "Change Time Signature",
-				"Value1": "5",
-				"Value2": "4",
-				"Value3": "2",
-				"Offset": 500.0
+				"Name": "Change BPM",
+				"Value1": "300",
+				"Value2": "",
+				"Offset": 0,
+				"StrumTime": 800.0
 			}
 		],
 		"Dad": "bf",
