@@ -1,8 +1,8 @@
 # Friday Night Funkin - Chart Editor Project
 
-A revamped and well-optimized chart editor project, for FestivalV X FNF.
+A revamped and well-optimized chart editor project. When the project is finished, it'll be ported over to FestivalV X FNF as a revamped chart system.
 
-## What this chart editor project is
+## What the original Friday Night Funkin chart editor project was
 
 There were a couple major problems with psych's and vanilla's, and since the flixel ui library was used,
 the game's memory constantly increases due to the ui sprites being redrawn every frame.
