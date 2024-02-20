@@ -75,18 +75,18 @@ class Grid extends FlxSpriteGroup {
 
 			// Sound time
 			if (flixel.FlxG.keys.justPressed.DOWN) {
-				inst.resume();
-				inst.setTime(inst.time + stepCrochet);
-				voices.setTime(voices.time + stepCrochet);
-				inst.pause();
-				if (inst.time > inst.length - stepCrochet || voices.time > inst.length - stepCrochet) {
+				if (inst.time > inst.length - 100.0 || voices.time > inst.length - 100.0) {
 					resetTime();
 				}
+				inst.resume();
+				inst.setTime(inst.time + 100.0);
+				voices.setTime(voices.time + 100.0);
+				inst.pause();
 			}
 			if (flixel.FlxG.keys.justPressed.UP) {
 				inst.resume();
-				inst.setTime(inst.time - stepCrochet);
-				voices.setTime(voices.time - stepCrochet);
+				inst.setTime(inst.time - 100.0);
+				voices.setTime(voices.time - 100.0);
 				inst.pause();
 				/*if (inst.time < 0.0 || voices.time < 0.0) { // Feel free to comment this out
 					resetTime();
