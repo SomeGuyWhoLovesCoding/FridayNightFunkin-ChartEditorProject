@@ -19,11 +19,7 @@ class Grid extends FlxSpriteGroup {
 	var crochet(default, null):Float = 0.0;
 	var stepCrochet(default, null):Float = 0.0;
 
-	// BPM change
-	var lastStepCrochet(default, null):Float = 0.0;
-
 	var initialBpm(default, null):Float = 100.0;
-
 	var currentBpm(null, set):Float = 100.0;
 	function set_currentBpm(value:Float):Float {
 		if (value == currentBpm) return value;
