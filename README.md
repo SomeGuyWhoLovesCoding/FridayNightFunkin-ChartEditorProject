@@ -1,6 +1,6 @@
 # Friday Night Funkin - Chart Editor Project
 
-A revamped and well-optimized chart editor project. When the project is finished, it'll be ported over to FestivalV X FNF as a revamped chart system.
+A repository of the rewritten chart editor, which'll have a **step-based bpm change system**, and most importantly, **Tab buttons with contents inside** that lead to a popup that can be closable.
 
 ## What the original Friday Night Funkin chart editor project was
 
