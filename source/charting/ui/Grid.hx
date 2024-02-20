@@ -94,8 +94,7 @@ class Grid extends FlxSpriteGroup {
 			}
 		}
 		super.update(elapsed);
-		y = flixel.math.FlxMath.lerp(y, (-flixel.math.FlxMath.bound(inst.time, 0.0, Math.POSITIVE_INFINITY) *
-			((stepCrochet * (currentTimeSignature.Steps / initialTimeSignature.Steps)) / (gridSize * (currentTimeSignature.Beats / initialTimeSignature.Beats)))), 0.35);
+		y = flixel.math.FlxMath.lerp(y, -(gridSize * (Math.max(inst.time, 0.0) / stepCrochet)), 0.35);
 		trace(inst.time);
 	}
 
