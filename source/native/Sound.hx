@@ -28,6 +28,8 @@ class Sound {
 
 	var __fileExists:Bool = false;
 
+	final timeFix:Float = 6.666666666;
+
 	//public static var crash:Bool = false;
 
 	public function new(soundPath:flixel.system.FlxAssets.FlxSoundAsset):Void {
@@ -113,7 +115,7 @@ class Sound {
 	}
 
 	public function setTime(value:Float):Void {
-		if (__fileExists) if (__source != null) __source.currentTime = Std.int(value);
+		if (__fileExists) if (__source != null) __source.currentTime = Std.int(value + timeFix);
 	}
 
 	/*public function setVolume(value:Float):Void {

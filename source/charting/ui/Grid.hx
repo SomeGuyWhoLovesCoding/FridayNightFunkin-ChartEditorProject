@@ -1,19 +1,36 @@
 package charting.ui;
 
-import flixel.*;
 import flixel.group.FlxSpriteGroup;
 import flixel.addons.display.FlxGridOverlay;
 import fv.song.Utils;
 import native.Sound;
 
 class Grid extends FlxSpriteGroup {
-	var grid(default, null):FlxSprite;
-	var gridSize:Int = 55;
+	var grid(default, null):flixel.FlxSprite;
+	var gridSize(default, null):Int = 55;
 
 	var curSection:Int = 0;
 
 	var inst(default, null):Sound;
 	var voices(default, null):Sound;
+
+	var stepCrochet(default, null):Float = 0.0;
+	var crochet(default, null):Float = 0.0;
+
+	var currentBpm(null, set):Float = 100.0;
+	function set_currentBpm(value:Float):Float {
+		crochet = 60000.0 / value;
+		stepCrochet = crochet * 0.25;
+		return currentBpm = value;
+	}
+
+	var initialBpm(null, set):Float = 100.0;
+	function set_initialBpm(value:Float):Float {
+		return set_currentBpm(value);
+	}
+
+	var initialTimeSignature(default, null):fv.song.Chart.ChartTimeSignature = {Steps: 4, Beats: 4, Bars: 1};
+	var currentTimeSignature(default, null):fv.song.Chart.ChartTimeSignature = {Steps: 4, Beats: 4, Bars: 1};
 
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
@@ -21,11 +38,18 @@ class Grid extends FlxSpriteGroup {
 		grid = FlxGridOverlay.create(gridSize, gridSize, gridSize * 9, gridSize * (chart.Meta.TimeSignature.Steps *
 			chart.Meta.TimeSignature.Beats * chart.Meta.TimeSignature.Bars),
 		true, 0xFFFFFFFF, 0xFFC3C3C3); // Hmm... This might actually be better
-		grid.scrollFactor.set(1, 1);
+		grid.scrollFactor.set(1.0, 1.0);
 		grid.active = false;
-		grid.updateHitbox();
 		grid.screenCenter(X);
 		add(grid);
+
+		currentBpm = chart.Meta.BPM;
+		initialBpm = chart.Meta.BPM;
+
+		initialTimeSignature = chart.Meta.TimeSignature;
+		currentTimeSignature = chart.Meta.TimeSignature;
+
+		//trace(currentBpm, initialBpm);
 
 		inst = new Sound(Paths.inst(chart.Meta.Song));
 		voices = new Sound(Paths.voices(chart.Meta.Song));
@@ -34,28 +58,57 @@ class Grid extends FlxSpriteGroup {
 	var stepTime:Float = 0.0;
 	override public function update(elapsed:Float):Void {
 		stepTime += elapsed;
-		grid.y = -inst.time;
 		@:privateAccess {
+			// Sound playback
 			if (flixel.FlxG.keys.justPressed.SPACE) {
 				if (inst.playing) inst.pause(); else if (inst.paused) inst.resume(); else inst.play();
 				if (voices.playing) voices.pause(); else if (voices.paused) voices.resume(); else voices.play();
 			}
 			if (flixel.FlxG.keys.justPressed.S) {
-				if (inst.playing || inst.paused) inst.play();
-				if (voices.playing || voices.paused) voices.play();
+				resetTime();
 			}
-			if (inst.playing || inst.paused || voices.playing || voices.paused) {
-				if (stepTime % elapsed * 4.0 == 0) onStepHit();
+			if (inst.playing || voices.playing) {
+				inst.update(elapsed);
+				voices.update(elapsed);
+				if (stepTime % elapsed * 4.0 == 0.0) onStepHit();
+			}
+
+			// Sound time
+			if (flixel.FlxG.keys.justPressed.DOWN) {
+				inst.resume();
+				inst.setTime(inst.time + stepCrochet);
+				voices.setTime(voices.time + stepCrochet);
+				inst.pause();
+				if (inst.time > inst.length - stepCrochet || voices.time > inst.length - stepCrochet) {
+					resetTime();
+				}
+			}
+			if (flixel.FlxG.keys.justPressed.UP) {
+				inst.resume();
+				inst.setTime(inst.time - stepCrochet);
+				voices.setTime(voices.time - stepCrochet);
+				inst.pause();
+				/*if (inst.time < 0.0 || voices.time < 0.0) { // Feel free to comment this out
+					resetTime();
+				}*/
 			}
 		}
-		inst.update(elapsed);
-		voices.update(elapsed);
 		super.update(elapsed);
+		y = flixel.math.FlxMath.lerp(y, (-flixel.math.FlxMath.bound(inst.time, 0.0, Math.POSITIVE_INFINITY) *
+			((stepCrochet * (currentTimeSignature.Steps / initialTimeSignature.Steps)) / (gridSize * (currentTimeSignature.Beats / initialTimeSignature.Beats)))), 0.35);
+		trace(inst.time);
 	}
 
 	function onStepHit():Void {
 		if (voices.time < inst.time - 20) {
 			voices.time = inst.time;
 		}
+	}
+
+	function resetTime():Void {
+		//// Put it exactly at the sound delta so it's actually on the top
+		inst.setTime(0.0);
+		voices.setTime(0.0);
+		//y = 0.0;
 	}
 }
