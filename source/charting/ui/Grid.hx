@@ -1,10 +1,10 @@
 package charting.ui;
 
 import flixel.*;
-import flixel.system.FlxSound;
 import flixel.group.FlxSpriteGroup;
 import flixel.addons.display.FlxGridOverlay;
 import fv.song.Utils;
+import native.Sound;
 
 class Grid extends FlxSpriteGroup {
 	var grid(default, null):FlxSprite;
@@ -12,8 +12,8 @@ class Grid extends FlxSpriteGroup {
 
 	var curSection:Int = 0;
 
-	var inst(default, null):FlxSound;
-	var voices(default, null):FlxSound;
+	var inst(default, null):Sound;
+	var voices(default, null):Sound;
 
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
@@ -27,16 +27,18 @@ class Grid extends FlxSpriteGroup {
 		grid.screenCenter(X);
 		add(grid);
 
-		inst = new FlxSound().loadEmbedded(Paths.inst(chart.Meta.Song), true);
-		voices = new FlxSound().loadEmbedded(Paths.voices(chart.Meta.Song), true);
+		inst = new Sound(Paths.inst(chart.Meta.Song));
+		voices = new Sound(Paths.voices(chart.Meta.Song));
 	}
 
 	override public function update(elapsed:Float):Void {
 		grid.y = -inst.time;
 		if (flixel.FlxG.keys.justPressed.SPACE) {
-			if (inst.playing) inst.pause(); else inst.play();
-			if (voices.playing) voices.pause(); else voices.play();
+			if (@:privateAccess inst.playing) inst.pause(); else if (@:privateAccess inst.paused) inst.resume(); else inst.play();
+			if (@:privateAccess voices.playing) voices.pause(); else if (@:privateAccess voices.paused) voices.resume(); else voices.play();
 		}
+		inst.update(elapsed);
+		voices.update(elapsed);
 		super.update(elapsed);
 	}
 
