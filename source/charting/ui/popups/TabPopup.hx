@@ -1,11 +1,10 @@
 package charting.ui.popups;
 
 import flixel.ui.FlxButton;
-import flixel.*;
 import flixel.group.FlxSpriteGroup;
 
 class TabPopup extends FlxSpriteGroup {
-	var tabBG(default, null):FlxSprite;
+	var tabBG(default, null):flixel.FlxSprite;
 	var tabContents(default, null):FlxSpriteGroup;
 	var tabExitButton(default, null):FlxButton;
 	var exitCallback(default, null):Void->Void;
@@ -16,7 +15,7 @@ class TabPopup extends FlxSpriteGroup {
 		super();
 
 		// Pre-add the tab background!
-		tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
+		tabBG = new flixel.FlxSprite().makeGraphic(400, 400, 0xFF999999);
 		tabBG.screenCenter();
 		add(tabBG);
 
@@ -42,7 +41,7 @@ class TabPopup extends FlxSpriteGroup {
 			return;
 		}
 
-		tabBG = new FlxSprite().makeGraphic(400, 400, 0xFF999999);
+		tabBG = new flixel.FlxSprite().makeGraphic(400, 400, 0xFF999999);
 		tabBG.screenCenter();
 		add(tabBG);
 

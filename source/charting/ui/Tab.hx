@@ -22,7 +22,6 @@ class Tab extends FlxSpriteGroup {
 		add(buttons);
 
 		var buttonX:Float = 0.0;
-		//buttonCallbacks = [onMetaClick, onGameplayClick, onSectionClick, onEventsClick, onFileClick];
 
 		var i:Int = 0; while (i < buttonsLength) {
 			var bX:Float = (bar.width / buttonsLength);
@@ -49,14 +48,12 @@ class Tab extends FlxSpriteGroup {
 	public function onTabButtonClick(button:FlxButton, id:Int):Void {
 		tabPopup.change(id);
 		tabPopup.visible = true;
-		//cast(buttons.group.members[id], FlxButton).status = 0; // Neat hack! Update status first before deactivation, also cast the sprite group's member to a FlxButton
 		buttons.active = false;
 		if (button != null) {
 			button.status = FlxButton.NORMAL;
 			button.animation.play("normal", true);
 			button.label.y -= 1; // Do a little fix here
 		}
-		//buttons.members[id].animation.play("normal", true);
 	}
 
 	public function onTabPopupExit():Void {

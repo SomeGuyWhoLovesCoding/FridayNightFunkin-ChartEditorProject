@@ -1,13 +1,9 @@
 package;
 
-import charting.*;
-import charting.ui.*;
-import charting.ui.popups.*;
-
 class PlayState extends flixel.FlxState
 {
-	var grid:Grid;
-	var tab:Tab;
+	var playfield:charting.Playfield;
+	var tab:charting.ui.Tab;
 
 	var song:fv.song.Chart;
 
@@ -16,15 +12,12 @@ class PlayState extends flixel.FlxState
 		flixel.FlxG.cameras.bgColor = 0xFF666666;
 
 		song = new fv.song.Chart('test', 'hard');
-		//trace(song);
 
-		grid = new Grid(song.getData());
-		add(grid);
+		playfield = new charting.Playfield(song.getData());
+		add(playfield);
 
-		tab = new Tab(song.getData());
+		tab = new charting.ui.Tab(song.getData());
 		add(tab);
-
-		//flixel.FlxG.camera.zoom = 0.5; Testing the bpm change map...
 
 		super.create();
 	}

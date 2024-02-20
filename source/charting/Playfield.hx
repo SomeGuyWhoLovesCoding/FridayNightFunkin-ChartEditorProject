@@ -1,4 +1,4 @@
-package charting.ui;
+package charting;
 
 import flixel.group.FlxSpriteGroup;
 import flixel.addons.display.FlxGridOverlay;
@@ -7,7 +7,7 @@ import native.Sound;
 
 typedef BPMChangeEvent = {BPM:Float, StrumTime:Float}
 
-class Grid extends FlxSpriteGroup {
+class Playfield extends FlxSpriteGroup {
 	var grid(default, null):flixel.FlxSprite;
 	var gridSize(default, null):Int = 55;
 
@@ -52,8 +52,6 @@ class Grid extends FlxSpriteGroup {
 
 		initialBpm = chart.Meta.BPM;
 		currentBpm = chart.Meta.BPM;
-
-		//trace(currentBpm, initialBpm);
 
 		inst = new Sound(Paths.inst(chart.Meta.Song));
 		voices = new Sound(Paths.voices(chart.Meta.Song));
@@ -104,10 +102,7 @@ class Grid extends FlxSpriteGroup {
 		super.update(elapsed);
 		songPosition = Math.max(inst.time, 0.0);
 		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
-		//trace(currentBpm,stepCrochet);
 		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
-		//trace(y);
-		//trace(inst.time);
 	}
 
 	inline function onStepHit():Void {
