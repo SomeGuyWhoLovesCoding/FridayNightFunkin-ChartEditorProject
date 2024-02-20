@@ -24,11 +24,6 @@ typedef ChartTimeSignature = {
 	?Bars:Int
 }
 
-typedef Section = {
-	SectionNotes:Array<ChartNote>,
-	FocusSection:FocusSection
-}
-
 typedef ChartNote = {
 	StrumTime:Float,
 	NoteData:Int,
@@ -56,7 +51,7 @@ typedef ChartJson = {
 		NeedsVoices:Bool,
 	},
 	Gameplay:{
-		Sections:Array<Section>,
+		Notes:Array<ChartNote>,
 		Events:Array<ChartEvent>,
 		Dad:String,
 		Boyfriend:String,
@@ -75,7 +70,7 @@ class Chart {
 	public var BPM:Float = 100.0;
 	public var Speed:Float = 1.0;
 	public var TimeSignature:ChartTimeSignature = {Beats: 4, Steps: 4, Bars: 1};
-	public var Sections:Array<Section> = [];
+	public var Notes:Array<ChartNote> = [];
 	public var Events:Array<ChartEvent> = [];
 	public var Dad:String = 'bf-pixel';
 	public var Boyfriend:String = '';
@@ -115,7 +110,7 @@ class Chart {
 				NeedsVoices: true
 			},
 			Gameplay: {
-				Sections: [],
+				Notes: [],
 				Events: [],
 				Dad: 'bf',
 				Boyfriend: 'bf',
@@ -140,19 +135,15 @@ class Chart {
 		BPM = ChartData.Meta.BPM;
 		TimeSignature = ChartData.Meta.TimeSignature;
 		NeedsVoices = ChartData.Meta.NeedsVoices;
-		Sections = ChartData.Gameplay.Sections;
-		if (Sections.length != 0) {
-			// Fix sections
-			var i:Int = 0; while (i < Sections.length) {
-				var j:Int = 0; while (j < Sections[i].SectionNotes.length) {
-					if (Sections[i].SectionNotes[j].NoteData >= 4 || Sections[i].SectionNotes[j].NoteData <= -1) {
-						Sections[i].SectionNotes[j].NoteData = Sections[i].SectionNotes[j].NoteData % 4;
-					}
-					if (Sections[i].SectionNotes[j].Type == null || Sections[i].SectionNotes[j].Type == '') {
-						Sections[i].SectionNotes[j].Type = 'Default';
-						//trace(Sections[i].SectionNotes[j].Type);
-					}
-					j++;
+		Notes = ChartData.Gameplay.Notes;
+		if (Notes.length != 0) {
+			// Fix notes
+			var i:Int = 0; while (i < Notes.length) {
+				if (Notes[i].NoteData >= 4 || Notes[i].NoteData <= -1) {
+					Notes[i].NoteData = Notes[i].NoteData % 4;
+				}
+				if (Notes[i].Type == null || Notes[i].Type == '') {
+					Notes[i].Type = 'Default';
 				}
 				i++;
 			}
@@ -187,7 +178,7 @@ class Chart {
 				NeedsVoices: NeedsVoices
 			},
 			Gameplay: {
-				Sections: Sections,
+				Notes: Notes,
 				Events: Events,
 				Dad: Dad,
 				Boyfriend: Boyfriend,

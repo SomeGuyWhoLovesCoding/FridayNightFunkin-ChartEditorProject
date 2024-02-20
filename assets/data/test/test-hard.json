@@ -11,54 +11,34 @@
 		"NeedsVoices": true
 	},
 	"Gameplay": {
-		"Sections": [
+		"Notes": [
 			{
-				"SectionNotes": [
-					{
-						"StrumTime": 0.0,
-						"NoteData": 0,
-						"SustainLength": 400.0,
-						"Type": "Default",
-						"MustPress": false
-					}
-				],
-				"FocusSection": "dad"
+				"StrumTime": 0.0,
+				"NoteData": 0,
+				"SustainLength": 400.0,
+				"Type": "Default",
+				"MustPress": false
 			},
 			{
-				"SectionNotes": [
-					{
-						"StrumTime": 0.0,
-						"NoteData": 1,
-						"SustainLength": 400.0,
-						"Type": "Default",
-						"MustPress": false
-					}
-				],
-				"FocusSection": "dad"
+				"StrumTime": 0.0,
+				"NoteData": 1,
+				"SustainLength": 400.0,
+				"Type": "Default",
+				"MustPress": false
 			},
 			{
-				"SectionNotes": [
-					{
-						"StrumTime": 0.0,
-						"NoteData": 2,
-						"SustainLength": 400.0,
-						"Type": "Default",
-						"MustPress": true
-					}
-				],
-				"FocusSection": "dad"
+				"StrumTime": 0.0,
+				"NoteData": 2,
+				"SustainLength": 400.0,
+				"Type": "Default",
+				"MustPress": true
 			},
 			{
-				"SectionNotes": [
-					{
-						"StrumTime": 0.0,
-						"NoteData": 3,
-						"SustainLength": 400.0,
-						"Type": "Default",
-						"MustPress": true
-					}
-				],
-				"FocusSection": "dad"
+				"StrumTime": 0.0,
+				"NoteData": 3,
+				"SustainLength": 400.0,
+				"Type": "Default",
+				"MustPress": true
 			}
 		],
 		"Events": [
@@ -67,7 +47,7 @@
 				"Name": "Change BPM",
 				"Value1": "300",
 				"Value2": "",
-				"Offset": 0,
+				"Offset": 0.0,
 				"StrumTime": 800.0
 			}
 		],
