@@ -100,7 +100,7 @@ class Grid extends FlxSpriteGroup {
 			}
 		}
 		super.update(elapsed);
-		y = flixel.math.FlxMath.lerp(y, -(gridSize * (Math.max(inst.time, 0.0) / stepCrochet)), 0.35);
+		y = flixel.math.FlxMath.lerp(y, -gridSize * (Math.max(inst.time, 0.0) / stepCrochet), 0.35);
 		trace(inst.time);
 	}
 
