@@ -31,6 +31,7 @@ class Grid extends FlxSpriteGroup {
 		voices = new Sound(Paths.voices(chart.Meta.Song));
 	}
 
+	var stepTime:Float = 0.0;
 	override public function update(elapsed:Float):Void {
 		grid.y = -inst.time;
 		if (flixel.FlxG.keys.justPressed.SPACE) {
@@ -40,6 +41,8 @@ class Grid extends FlxSpriteGroup {
 		inst.update(elapsed);
 		voices.update(elapsed);
 		super.update(elapsed);
+		stepTime += elapsed;
+		if (stepTime % 75 == 0) onStepHit();
 	}
 
 	function onStepHit():Void {
