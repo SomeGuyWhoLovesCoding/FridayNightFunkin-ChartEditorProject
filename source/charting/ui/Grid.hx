@@ -34,15 +34,21 @@ class Grid extends FlxSpriteGroup {
 	var stepTime:Float = 0.0;
 	override public function update(elapsed:Float):Void {
 		grid.y = -inst.time;
-		if (flixel.FlxG.keys.justPressed.SPACE) {
-			if (@:privateAccess inst.playing) inst.pause(); else if (@:privateAccess inst.paused) inst.resume(); else inst.play();
-			if (@:privateAccess voices.playing) voices.pause(); else if (@:privateAccess voices.paused) voices.resume(); else voices.play();
+		@:privateAccess {
+			if (flixel.FlxG.keys.justPressed.SPACE) {
+				if (inst.playing) inst.pause(); else if (inst.paused) inst.resume(); else inst.play();
+				if (voices.playing) voices.pause(); else if (voices.paused) voices.resume(); else voices.play();
+			}
+			if (flixel.FlxG.keys.justPressed.S) {
+				if (inst.playing || inst.paused) inst.play();
+				if (voices.playing || voices.paused) voices.play();
+			}
 		}
 		inst.update(elapsed);
 		voices.update(elapsed);
 		super.update(elapsed);
 		stepTime += elapsed;
-		if (stepTime % 75 == 0) onStepHit();
+		if (stepTime % elapsed * 4.0 == 0) onStepHit();
 	}
 
 	function onStepHit():Void {
