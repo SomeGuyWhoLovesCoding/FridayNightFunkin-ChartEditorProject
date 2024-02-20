@@ -13,7 +13,7 @@ class PlayState extends flixel.FlxState
 
 	override public function create()
 	{
-		FlxG.cameras.bgColor = 0xFF666666;
+		flixel.FlxG.cameras.bgColor = 0xFF666666;
 
 		song = new fv.song.Chart('test', 'hard');
 		//trace(song);

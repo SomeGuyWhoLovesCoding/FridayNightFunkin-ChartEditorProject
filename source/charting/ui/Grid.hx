@@ -18,7 +18,7 @@ class Grid extends FlxSpriteGroup {
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
 
-		grid = FlxGridOverlay.create(gridSize, gridSize, gridSize * 8, gridSize * (chart.Meta.TimeSignature.Steps *
+		grid = FlxGridOverlay.create(gridSize, gridSize, gridSize * 9, gridSize * (chart.Meta.TimeSignature.Steps *
 			chart.Meta.TimeSignature.Beats * chart.Meta.TimeSignature.Bars),
 		true, 0xFFFFFFFF, 0xFFC3C3C3); // Hmm... This might actually be better
 		grid.scrollFactor.set(1, 1);
