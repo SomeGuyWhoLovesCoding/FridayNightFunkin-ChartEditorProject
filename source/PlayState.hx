@@ -24,6 +24,8 @@ class PlayState extends flixel.FlxState
 		tab = new Tab(song.getData());
 		add(tab);
 
+		//flixel.FlxG.camera.zoom = 0.5; Testing the bpm change map...
+
 		super.create();
 	}
 

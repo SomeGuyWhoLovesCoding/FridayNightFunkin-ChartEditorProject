@@ -5,7 +5,7 @@ import flixel.addons.display.FlxGridOverlay;
 import fv.song.Utils;
 import native.Sound;
 
-typedef BPMChangeEvent = {StepTime:Float, SongTime:Float, BPM:Float}
+typedef BPMChangeEvent = {BPM:Float, StrumTime:Float}
 
 class Grid extends FlxSpriteGroup {
 	var grid(default, null):flixel.FlxSprite;
@@ -27,17 +27,19 @@ class Grid extends FlxSpriteGroup {
 	var currentBpm(null, set):Float = 100.0;
 	function set_currentBpm(value:Float):Float {
 		if (value == currentBpm) return value;
-		lastStepCrochet = stepCrochet;
 		crochet = 60000.0 / value;
 		stepCrochet = crochet * 0.25;
 		return currentBpm = value;
 	}
 
-	var songPosition:Float = 0.0;
+	var timeOffset(default, null):Float = 0.0;
+	var songPosition(default, null):Float = 0.0;
 
 	var currentTimeSignature(default, null):fv.song.Chart.ChartTimeSignature = {Steps: 4, Beats: 4, Bars: 1};
 
-	var bpmChangeMap:Array<BPMChangeEvent> = [];
+	var bpmChangeMap(default, null):Array<BPMChangeEvent> = [];
+
+	final smoothGrid:Bool = true;
 
 	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
@@ -66,6 +68,11 @@ class Grid extends FlxSpriteGroup {
 	var stepTime:Float = 0.0;
 	override public function update(elapsed:Float):Void {
 		stepTime += elapsed;
+		songPosition = Math.max(inst.time, 0.0);
+		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
+		trace(currentBpm,stepCrochet);
+		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
+		super.update(elapsed);
 		@:privateAccess {
 			// Sound playback
 			if (flixel.FlxG.keys.justPressed.SPACE) {
@@ -103,11 +110,6 @@ class Grid extends FlxSpriteGroup {
 				}*/
 			}
 		}
-		super.update(elapsed);
-		songPosition = Math.max(inst.time, 0.0);
-		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
-		trace(currentBpm);
-		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition / stepCrochet), 0.35);
 		//trace(y);
 		//trace(inst.time);
 	}
@@ -120,21 +122,27 @@ class Grid extends FlxSpriteGroup {
 
 	inline function resetTime():Void {
 		//// Put it exactly at the sound delta so it's actually on the top
-		inst.setTime(0.0);
-		voices.setTime(0.0);
-		//y = 0.0;
+		var startTime:Float = 0.0;
+		inst.setTime(startTime);
+		voices.setTime(startTime);
+		inst.time = startTime;
+		voices.time = startTime;
+		// Don't remove this, otherwise the bpm won't change back.
+		currentBpm = initialBpm;
+		timeOffset = startTime;
+		//
+		songPosition = startTime;
+		y = startTime;
 	}
 
 	inline function GenerateBPMChangeMap(chart:fv.song.Chart.ChartJson):Array<BPMChangeEvent> {
 		var EventsMap:Array<fv.song.Chart.ChartEvent> = chart.Gameplay.Events;
 		var CurrentCrochet:Float = crochet;
-		var BPMChangeMap:Array<BPMChangeEvent> = [{StepTime: CurrentCrochet * 0.25, SongTime: 0.0, BPM: initialBpm}];
+		var BPMChangeMap:Array<BPMChangeEvent> = [{BPM: initialBpm, StrumTime: 0.0}];
 		var i:Int = 0; while (i < EventsMap.length) {
 			var Event = EventsMap[i++];
 			if (Event.Type == TEMPO && Event.Name == 'Change BPM') {
-				var BPM:Float = Std.parseFloat(Event.Value1);
-				BPMChangeMap.push({StepTime: CurrentCrochet * 0.25, SongTime: Event.StrumTime, BPM: BPM});
-				CurrentCrochet = 60.0 / BPM;
+				BPMChangeMap.push({BPM: Std.parseFloat(Event.Value1), StrumTime: Event.StrumTime});
 			}
 		}
 		return BPMChangeMap;
@@ -144,7 +152,11 @@ class Grid extends FlxSpriteGroup {
 		var bpm:Float = currentBpm;
 		var i:Int = 0; while (i < bpmChangeMap.length) {
 			var bpmChange:BPMChangeEvent = bpmChangeMap[i++];
-			if (position > bpmChange.SongTime) bpm = bpmChange.BPM;
+			if (position > bpmChange.StrumTime) {
+				var lastBpm:Float = bpm;
+				bpm = bpmChange.BPM;
+				timeOffset = bpmChange.StrumTime * (lastBpm / bpm);
+			}
 		}
 		return bpm;
 	}
