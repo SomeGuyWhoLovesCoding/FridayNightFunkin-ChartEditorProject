@@ -7,19 +7,22 @@ import charting.ui.popups.*;
 
 class PlayState extends FlxState
 {
-	//var grid:Grid;
+	var grid:Grid;
 	var tab:Tab;
+
+	var song:fv.song.Chart.ChartJson;
 
 	override public function create()
 	{
 		FlxG.cameras.bgColor = 0xFF666666;
 
-		//grid = new Grid();
-		//grid.container = this;
-		//add(grid);
+		song = new fv.song.Chart('test', 'hard').getData();
+		trace(song);
 
-		tab = new Tab();
-		tab.container = this;
+		grid = new Grid(song);
+		add(grid);
+
+		tab = new Tab(song);
 		add(tab);
 
 		super.create();

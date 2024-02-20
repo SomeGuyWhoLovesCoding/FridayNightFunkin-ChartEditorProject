@@ -3,19 +3,16 @@ package charting.ui;
 import flixel.group.FlxSpriteGroup;
 import flixel.ui.FlxButton;
 import flixel.*;
-
 import charting.ui.popups.*;
 
 class Tab extends FlxSpriteGroup {
-	public var container:FlxState;
-
 	var bar(default, null):FlxSprite;
 	var buttons(default, null):FlxSpriteGroup;
 	var buttonsLength(default, null):Int = 5;
 	var buttonNames(default, null):Array<String> = ['[!] Meta', 'Gameplay', 'Section', 'Events', 'File'];
 	var tabPopup(default, null):TabPopup;
 
-	public function new():Void {
+	public function new(chart:fv.song.Chart.ChartJson):Void {
 		super();
 
 		bar = new FlxSprite().makeGraphic(FlxG.width, 38, 0x66000000);
@@ -40,7 +37,7 @@ class Tab extends FlxSpriteGroup {
 			i++;
 		}
 
-		tabPopup = new TabPopup(onTabPopupExit);
+		tabPopup = new TabPopup(chart, onTabPopupExit);
 		tabPopup.visible = false;
 		add(tabPopup);
 	}

@@ -10,7 +10,9 @@ class TabPopup extends FlxSpriteGroup {
 	var tabExitButton(default, null):FlxButton;
 	var exitCallback(default, null):Void->Void;
 
-	public function new(?callback:Void->Void):Void {
+	var song(default, null):fv.song.Chart.ChartJson;
+
+	public function new(chart:fv.song.Chart.ChartJson, ?callback:Void->Void):Void {
 		super();
 
 		// Pre-add the tab background!

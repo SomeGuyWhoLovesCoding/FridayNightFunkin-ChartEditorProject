@@ -44,16 +44,16 @@ class FPS extends TextField
 	var bufferAmount:Float = 40.0;
 	private function updateFPS(_):Void
 	{
-		if (buffer < 0) {
-			buffer = bufferAmount;
+		/*if (buffer < 0) {
+			buffer = bufferAmount;*/
 			updateText();
-			return;
+			/*return;
 		}
-		buffer -= 1024.0 / 1048.0; // System buffer time
+		buffer -= 1024.0 / 1048.0; // System buffer time*/
 	}
 
 	private function updateText():Void {
-		var mem:Float = #if TM_MEMORY Math.abs(FlxMath.roundDecimal(cpp.vm.Gc.memInfo64(2), 2)) * (0x7FFFFFFF * 0.00000000068) #else System.totalMemory / 1.048 #end;
+		var mem:Float = System.totalMemory / 1.048;
 		if (mem >= maxMem) {
 			maxMem = mem;
 		}
