@@ -108,7 +108,7 @@ class Grid extends FlxSpriteGroup {
 		super.update(elapsed);
 		songPosition = Math.max(inst.time, 0.0);
 		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
-		trace(currentBpm,stepCrochet);
+		//trace(currentBpm,stepCrochet);
 		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
 		//trace(y);
 		//trace(inst.time);
