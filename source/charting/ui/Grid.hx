@@ -27,8 +27,8 @@ class Grid extends FlxSpriteGroup {
 		grid.screenCenter(X);
 		add(grid);
 
-		inst = new FlxSound().loadEmbedded(Paths.inst(chart.Meta.Song), 1.0);
-		voices = new FlxSound().loadEmbedded(Paths.voices(chart.Meta.Song), 1.0);
+		inst = new FlxSound().loadEmbedded(Paths.inst(chart.Meta.Song), true);
+		voices = new FlxSound().loadEmbedded(Paths.voices(chart.Meta.Song), true);
 	}
 
 	override public function update(elapsed:Float):Void {
