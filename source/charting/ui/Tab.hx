@@ -31,7 +31,7 @@ class Tab extends FlxSpriteGroup {
 			button.label.color = 0xFFFFFFFF;
 			button.label.size = 26;
 			buttons.add(button);
-			button.onUp.callback = () -> onTabButtonClick(button, i);
+			button.onUp.callback = () -> onTabButtonClick(button);
 			buttonX += bX;
 			i++;
 		}
@@ -45,7 +45,9 @@ class Tab extends FlxSpriteGroup {
 		super.update(elapsed);
 	}
 
-	public function onTabButtonClick(button:FlxButton, id:Int):Void {
+	public function onTabButtonClick(button:FlxButton):Void {
+		var id:Int = buttons.members.indexOf(button);
+		trace(id);
 		tabPopup.change(id);
 		tabPopup.visible = true;
 		buttons.active = false;

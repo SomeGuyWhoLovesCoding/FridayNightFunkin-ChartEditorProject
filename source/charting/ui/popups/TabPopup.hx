@@ -3,6 +3,8 @@ package charting.ui.popups;
 import flixel.ui.FlxButton;
 import flixel.group.FlxSpriteGroup;
 
+using StringTools;
+
 class TabPopup extends FlxSpriteGroup {
 	var tabBG(default, null):flixel.FlxSprite;
 	var tabContents(default, null):FlxSpriteGroup;
@@ -23,6 +25,8 @@ class TabPopup extends FlxSpriteGroup {
 		tabContents.x = tabBG.x;
 		tabContents.y = tabBG.y;
 		add(tabContents);
+
+		song = chart;
 
 		regenerateExitButton(exitCallback = callback);
 	}
@@ -54,6 +58,20 @@ class TabPopup extends FlxSpriteGroup {
 
 		switch (id) {
 			case 0:
+				var songNameBar:flixel.addons.ui.FlxInputText = new flixel.addons.ui.FlxInputText(tabBG.x + 6, tabBG.y + 6, 388,
+					'assets/data/${Paths.formatToSongPath(song.Meta.Song)}/${Paths.formatToSongPath(song.Meta.Song)}', 0xFF000000, 0xFF999999);
+				tabContents.add(songNameBar);
+				trace(validateSongPathOf(songNameBar.text));
+				trace(songNameBar.text);
+				var reloadSongbutton:FlxButton = new FlxButton(songNameBar.x, songNameBar.y + (songNameBar.height + 2), 'Find chart file with specific song name', function() {
+					try {
+						var v:String = validateSongPathOf(songNameBar.text);
+						PlayState.instance.song = new fv.song.Chart(v, '');
+					} catch (e:Dynamic) {
+						trace('Could not find song path of ${songNameBar.text}: $e');
+					}
+					flixel.FlxG.resetState();
+				});
 		}
 	}
 
@@ -62,5 +80,9 @@ class TabPopup extends FlxSpriteGroup {
 		tabExitButton.loadGraphic("assets/images/charting/ui/tabPopupExitButton.png", true, 40, 40); // The X's font is salma pro btw
 		tabExitButton.x = tabBG.x + (tabBG.width - tabExitButton.width);
 		add(tabExitButton);
+	}
+
+	private function validateSongPathOf(songName:String):String {
+		return songName.replace('assets/data/${Paths.formatToSongPath(song.Meta.Song)}/', '');
 	}
 }

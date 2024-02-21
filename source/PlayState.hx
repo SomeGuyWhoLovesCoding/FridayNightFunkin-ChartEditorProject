@@ -2,10 +2,12 @@ package;
 
 class PlayState extends flixel.FlxState
 {
-	var playfield:charting.Playfield;
-	var tab:charting.ui.Tab;
+	var playfield(default, null):charting.Playfield;
+	var tab(default, null):charting.ui.Tab;
 
-	var song:fv.song.Chart;
+	public var song:fv.song.Chart;
+
+	public static var instance:PlayState;
 
 	override public function create()
 	{
@@ -18,6 +20,8 @@ class PlayState extends flixel.FlxState
 
 		tab = new charting.ui.Tab(song.getData());
 		add(tab);
+
+		instance = this;
 
 		super.create();
 	}
