@@ -35,6 +35,9 @@ class Playfield extends FlxSpriteGroup {
 
 	var bpmChangeMap(default, null):Array<BPMChangeEvent> = [];
 
+	var beatSnapValues:Array<Float> = [0.25, 0.5, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192];
+	var beatSnapIndex:Int = 1;
+
 	final smoothGrid:Bool = true;
 
 	public function new(chart:fv.song.Chart.ChartJson):Void {
@@ -78,21 +81,22 @@ class Playfield extends FlxSpriteGroup {
 			}
 
 			// Sound time
+			var songPositionSetValue:Float = 100.0 / beatSnapValues[beatSnapIndex];
 			if (flixel.FlxG.keys.justPressed.DOWN) {
-				if (inst.time > inst.length - 100.0 || voices.time > inst.length - 100.0) {
+				if (inst.time > inst.length - songPositionSetValue || voices.time > inst.length - songPositionSetValue) {
 					resetTime();
 				}
 				if (inst.paused) inst.resume(); else inst.play();
 				if (voices.paused) voices.resume(); else voices.play();
-				inst.setTime(inst.time + 100.0);
+				inst.setTime(inst.time + songPositionSetValue);
 				inst.pause();
-				voices.setTime(voices.time + 100.0);
+				voices.setTime(voices.time + songPositionSetValue);
 				voices.pause();
 			}
 			if (flixel.FlxG.keys.justPressed.UP) {
 				inst.resume();
-				inst.setTime(inst.time - 100.0);
-				voices.setTime(voices.time - 100.0);
+				inst.setTime(inst.time - songPositionSetValue);
+				voices.setTime(voices.time - songPositionSetValue);
 				inst.pause();
 				/*if (inst.time < 0.0 || voices.time < 0.0) { // Feel free to comment this out
 					resetTime();
@@ -101,8 +105,10 @@ class Playfield extends FlxSpriteGroup {
 		}
 		super.update(elapsed);
 		songPosition = Math.max(inst.time, 0.0);
+		grid.scale.y = Math.min(beatSnapValues[beatSnapIndex], 1.0);
+		grid.updateHitbox();
 		currentBpm = GenerateBPMFromBPMChangeMap(songPosition);
-		y = flixel.math.FlxMath.lerp(y, -gridSize * (songPosition - timeOffset) / stepCrochet, smoothGrid ? 0.35 : 1.0);
+		y = flixel.math.FlxMath.lerp(y, -gridSize * ((songPosition - timeOffset) * beatSnapValues[beatSnapIndex]) / stepCrochet, smoothGrid ? 0.35 : 1.0);
 	}
 
 	inline function onStepHit():Void {
