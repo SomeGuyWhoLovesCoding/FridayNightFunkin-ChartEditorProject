@@ -57,21 +57,29 @@ class TabPopup extends FlxSpriteGroup {
 		regenerateExitButton(exitCallback);
 
 		switch (id) {
-			case 0:
-				var songNameBar:flixel.addons.ui.FlxInputText = new flixel.addons.ui.FlxInputText(tabBG.x + 6, tabBG.y + 6, 388,
-					'assets/data/${Paths.formatToSongPath(song.Meta.Song)}/${Paths.formatToSongPath(song.Meta.Song)}', 0xFF000000, 0xFF999999);
-				tabContents.add(songNameBar);
-				trace(validateSongPathOf(songNameBar.text));
-				trace(songNameBar.text);
-				var reloadSongbutton:FlxButton = new FlxButton(songNameBar.x, songNameBar.y + (songNameBar.height + 2), 'Find chart file with specific song name', function() {
+			case 4:
+				var loadSongBar = new flixel.addons.ui.FlxInputText(7, 7, Std.int(tabBG.width - (13 + tabExitButton.width)), 'assets/data/${Paths.formatToSongPath(song.Meta.Song)}/${Paths.formatToSongPath(song.Meta.Song)}.json');
+				tabContents.add(loadSongBar);
+
+				var loadSongButton:FlxButton = new FlxButton(6, 7 + (loadSongBar.height + 4), 'Load chart', function() {
 					try {
-						var v:String = validateSongPathOf(songNameBar.text);
-						PlayState.instance.song = new fv.song.Chart(v, '');
+						PlayState.instance.song = haxe.Json.parse(sys.io.File.getContent(loadSongBar.text));
+						flixel.FlxG.resetState();
 					} catch (e:Dynamic) {
-						trace('Could not find song path of ${songNameBar.text}: $e');
+						trace('Could not find song path of ${loadSongBar.text}: $e');
 					}
-					flixel.FlxG.resetState();
 				});
+				tabContents.add(loadSongButton);
+
+				var saveSongBar = new flixel.addons.ui.FlxInputText(7, 7 + ((loadSongButton.height * 2.0) + 8), Std.int(tabBG.width - 13), 'assets/data/${Paths.formatToSongPath(song.Meta.Song)}/${Paths.formatToSongPath(song.Meta.Song)}.json');
+				tabContents.add(saveSongBar);
+
+				var saveSongButton:FlxButton = new FlxButton(6, 55 + (saveSongBar.height + 4), 'Save chart', function() {
+					sys.io.File.saveContent(saveSongBar.text, haxe.Json.stringify(PlayState.instance.song, '\t'));
+					PlayState.instance.song = haxe.Json.parse(sys.io.File.getContent(saveSongBar.text));
+					trace('Chart successfully saved!');
+				});
+				tabContents.add(saveSongButton);
 		}
 	}
 
